@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 var title1 ='';
 var myList =[];
+var sort =false;
 
 class _HomeScreenState extends State<HomeScreen> {
 
@@ -30,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     print('Build Method Called');
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title1),
@@ -40,29 +42,62 @@ class _HomeScreenState extends State<HomeScreen> {
               title1 = 'Change in Set State';
               myList.add('Rimon');
             });
-          }, icon: Icon(Icons.add))
+          }, icon: Icon(Icons.add)),
+          IconButton(onPressed: () {
+            setState(() {
+             myList.clear();
+            });
+          }, icon: Icon(Icons.delete)),
+
+          IconButton(onPressed: () {
+            setState(() {
+
+              sort = !sort;
+
+             // if(sort == false){
+             //   sort =true;
+             // }
+             // else{
+             //   sort =false;
+             // }
+            });
+          }, icon: Icon(Icons.sort)),
         ],
       ),
 
-      body: ListView.builder(
-          itemCount: myList.length,
-          itemBuilder: (context, index) {
-            return CustomListTileD(
-              title1: ' ${myList[index]} -- $index',
-              subtitle: myList[index],
-              icon: null,
-              t_icon: const Icon(Icons.title),
-              onClicked: () {
-                setState(() {
-                  myList.removeAt(index);
-                });
-                print('Size : ${myList.length}');
-                Fluttertoast.showToast(msg: '${myList[index]} has been deleted');
-              },
+      body: _ListView_Builder(context)
+    );
+  }
 
-            );
-          }
-      ),
+  _ListView_Builder(BuildContext context) {
+    return ListView.builder(
+      itemCount: myList.length,
+      itemBuilder: (context, index) {
+        return CustomListTileD(
+          title1: ' ${myList[index]} -- $index',
+          subtitle: myList[index],
+          icon: null,
+          t_icon: const Icon(Icons.title),
+          onClicked: () {
+            setState(() {
+              myList.removeAt(index);
+            });
+            print('Size : ${myList.length}');
+            Fluttertoast.showToast(msg: '${myList[index]} has been deleted');
+          },
+          longPressed: (){
+
+            setState(() {
+              myList[index] = 'Bikash';
+            });
+
+            Fluttertoast.showToast(msg: '${myList[index]} Change with Long Pressed');
+          },
+
+        );
+
+      },
+      reverse: sort,
     );
   }
   }
