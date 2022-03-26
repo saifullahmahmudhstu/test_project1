@@ -65,39 +65,66 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
 
-      body: _ListView_Builder(context)
+      // body: _ListView_Builder(context)
+      body: _listViewSeparated(context),
     );
   }
 
-  _ListView_Builder(BuildContext context) {
-    return ListView.builder(
-      itemCount: myList.length,
-      itemBuilder: (context, index) {
-        return CustomListTileD(
-          title1: ' ${myList[index]} -- $index',
-          subtitle: myList[index],
-          icon: null,
-          t_icon: const Icon(Icons.title),
-          onClicked: () {
-            setState(() {
-              myList.removeAt(index);
-            });
-            print('Size : ${myList.length}');
-            Fluttertoast.showToast(msg: '${myList[index]} has been deleted');
-          },
-          longPressed: (){
-
-            setState(() {
-              myList[index] = 'Bikash';
-            });
-
-            Fluttertoast.showToast(msg: '${myList[index]} Change with Long Pressed');
-          },
-
-        );
-
-      },
+  _listViewSeparated(BuildContext context) {
+    return ListView.separated(
       reverse: sort,
-    );
+        itemBuilder: (BuildContext context, int index) {
+          return CustomListTileD(
+              title1: '${myList[index]}',
+              subtitle: '$index',
+              onClicked: (){
+                setState(() {
+                  myList.removeAt(index);
+                });
+              },
+              longPressed: (){
+                setState(() {
+                  myList[index] ='Bikash';
+                });
+              });
+
+        },
+        separatorBuilder: (BuildContext context, index) => const Divider(
+          height: 5,
+        ),
+        itemCount: myList.length);
+
   }
+
+  // _ListView_Builder(BuildContext context) {
+  //   return ListView.builder(
+  //     itemCount: myList.length,
+  //     itemBuilder: (context, index) {
+  //       return CustomListTileD(
+  //         title1: ' ${myList[index]} -- $index',
+  //         subtitle: myList[index],
+  //         icon: null,
+  //         t_icon: const Icon(Icons.title),
+  //         onClicked: () {
+  //           setState(() {
+  //             myList.removeAt(index);
+  //           });
+  //           print('Size : ${myList.length}');
+  //           Fluttertoast.showToast(msg: '${myList[index]} has been deleted');
+  //         },
+  //         longPressed: (){
+  //
+  //           setState(() {
+  //             myList[index] = 'Bikash';
+  //           });
+  //
+  //           Fluttertoast.showToast(msg: '${myList[index]} Change with Long Pressed');
+  //         },
+  //
+  //       );
+  //
+  //     },
+  //     reverse: sort,
+  //   );
+  // }
   }
