@@ -6,25 +6,33 @@ class CustomListTileD extends StatelessWidget {
 
 
   String title1;
-  String subtitle;
-  Icon ? icon;
-  Icon ? t_icon;
-  String ? t_text;
+  String? subtitle;
+  String ? imageUrl;
+  String ? trailing1;
+
   VoidCallback onClicked;
   VoidCallback longPressed;
 
 
 
   CustomListTileD(
-      {required this.title1, required this.subtitle, this.icon, this.t_icon, this.t_text ,required this.onClicked,required this.longPressed});
+      { required this.title1,  this.subtitle, this.imageUrl, this.trailing1, required this.onClicked,required this.longPressed});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(title1),
-      subtitle: Text(subtitle),
-      leading: icon ?? Text(title1[0],style: const TextStyle(fontSize: 25),),
-      trailing: t_icon,
+
+      subtitle: Text(subtitle?? ''),
+
+      // leading: imageUrl ?? Text(title1[0],style: const TextStyle(fontSize: 25),),
+      leading: ClipOval(
+        child: CircleAvatar(    //when declare as IconData
+          child: imageUrl ==null ? Text(title1[0],style: const TextStyle(fontSize: 25),) : Image.network(imageUrl!)
+        ),
+      ),
+
+      trailing: Text(trailing1 ??''),
       onTap: onClicked,
       onLongPress: longPressed,
     );
