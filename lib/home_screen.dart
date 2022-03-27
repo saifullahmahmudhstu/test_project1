@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
   import 'package:fluttertoast/fluttertoast.dart';
   import 'package:testproject/models/my_user_model.dart';
+import 'package:testproject/widgets/responsive_helper.dart';
 
   import 'CustomListTileD.dart';
 
@@ -17,13 +18,10 @@ import 'package:flutter/material.dart';
   }
 
 
-  List<MyModelUser> myList =[
+  List<MyModelUser> myList =[ ];
 
-
-  ];
-
-
-
+  double myScreenHeight = 0.0;
+  double myScreenWidth =0.0;
 
   var sort =false;
 
@@ -45,6 +43,10 @@ import 'package:flutter/material.dart';
 
     @override
     Widget build(BuildContext context) {
+      myScreenWidth = MediaQuery.of(context).size.width;
+      myScreenHeight = MediaQuery.of(context).size.height;
+
+
       print('Build Method Called');
 
       return Scaffold(
@@ -129,6 +131,16 @@ import 'package:flutter/material.dart';
               // ),
             ),
 
+            Container(
+
+              height: 100,
+              width: double.infinity,
+              margin: EdgeInsets.only(left: 23,top: 5, right: 23),
+              child: Center(
+                child: Text('Height: $myScreenHeight Width: $myScreenWidth'),
+              )
+            ),
+
             _listViewBuilder(context),
             _gridView (),
 
@@ -148,9 +160,11 @@ import 'package:flutter/material.dart';
           shrinkWrap: true,
 
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 5),
+              crossAxisCount:  ResponsiveHelper.isMobile(context) ? 3 : ResponsiveHelper.isTab(context) ? 4 :ResponsiveHelper.isDesktop(context) ? 6 : 7 ),
           itemBuilder: (c,i) {
             return Container(
+
+
               padding: EdgeInsets.all(5),
 
               margin: EdgeInsets.all(5),
